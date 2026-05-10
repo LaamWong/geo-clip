@@ -23,6 +23,7 @@ class ImageEncoder(nn.Module):
         return x
 
     def forward(self, x):
-        x = self.CLIP.get_image_features(pixel_values=x)
+        output = self.CLIP.get_image_features(pixel_values=x) # BaseModelOutputWithPooling
+        x = output if isinstance(output, torch.Tensor) else output.pooled_output
         x = self.mlp(x)
         return x
